@@ -24,7 +24,7 @@ const game = {
       Promise.delay(tapEsc, 100)
         .delay(tapEnter, 1500)
         .delay(tapEsc, 3500)
-        .delay(tapEsc, 100)
+        .delay(tapEsc, 200)
         .delay(tapEnter, 1500)
         .delay(() => { menuPack4(index) }, 8000)
         .delay(tapEnter, 8500)

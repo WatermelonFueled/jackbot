@@ -4,17 +4,20 @@ require('dotenv').config();
 console.log('Getting .env variables')
 const { BOTTOKEN, PREFIX, VOICECHANNEL, TEXTCHANNEL } = process.env;
 
-const fs = require('fs');
+console.log('New Discord Client')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+console.log('Loading commands')
 client.commands = new Discord.Collection();
+const fs = require('fs');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
 
+console.log('Logging in')
 client.login(BOTTOKEN);
 client.on('ready', () => console.log('Jackbot online'));
 

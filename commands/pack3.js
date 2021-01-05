@@ -16,7 +16,7 @@ const game = {
     start: (index) => {
       Promise.delay(tapEnter, 2500)
         .delay(discordScreenShareShortcut, 4000)
-        .delay(tapEnter, 11500)
+        .delay(tapEnter, 10000)
         .delay(() => { menuPack3(index) }, 5500)
         .delay(tapEnter, 8500)
     },

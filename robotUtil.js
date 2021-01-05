@@ -15,11 +15,11 @@ module.exports = {
     robot.keyTap('down');
   },
   menuPack3(index) {
-    robot.moveMouse(180, 135 + (index * 52));
+    robot.moveMouse(180, 175 + (index * 62));
     robot.mouseClick();
   },
   menuPack4(index) {
-    robot.moveMouse(175, 460 + (index * 42));
+    robot.moveMouse(200, 575 + (index * 52));
     robot.mouseClick();
   },
 }
