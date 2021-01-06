@@ -22,4 +22,12 @@ module.exports = {
     robot.moveMouse(200, 575 + (index * 52));
     robot.mouseClick();
   },
+  joinVoiceChannel() {
+    robot.moveMouse(1135, 600);
+    robot.mouseClick();
+  },
+  leaveVoiceChannel() {
+    robot.moveMouse(1218, 943);
+    robot.mouseClick();
+  },
 }

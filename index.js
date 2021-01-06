@@ -2,15 +2,17 @@ console.log('Starting Jackbot');
 
 require('dotenv').config();
 console.log('Getting .env variables')
-const { BOTTOKEN, PREFIX, VOICECHANNEL, TEXTCHANNEL } = process.env;
+const { BOTTOKEN, PREFIX, VOICECHANNEL, TEXTCHANNEL, HOSTID } = process.env;
 
 console.log('New Discord Client')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+const { stopAllGames } = require('./gameUtil');
 console.log('Loading commands')
 client.commands = new Discord.Collection();
 const fs = require('fs');
+const { leaveVoiceChannel } = require('./robotUtil');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
@@ -19,7 +21,18 @@ for (const file of commandFiles) {
 
 console.log('Logging in')
 client.login(BOTTOKEN);
-client.on('ready', () => console.log('Jackbot online'));
+client.on('ready', () => {
+  setInterval(() => {
+    client.channels.fetch(VOICECHANNEL).then((ch) => {
+      if (ch.members.size == 0 || (ch.members.size == 1 && ch.members.has(HOSTID))) {
+        stopAllGames();
+        Promise.delay(leaveVoiceChannel, 500);
+      }
+    })
+  }, 10 * 60 * 1000);
+  
+  console.log('Jackbot online');
+});
 
 client.on('message', (msg) => {
   if (
@@ -35,12 +48,23 @@ client.on('message', (msg) => {
 
   if (!command) return;
 
-  try {
-    command.execute(msg, commandName);
-  } catch (error) {
-    console.error(error);
-    msg.channel.send('There was an error trying to execute that command!');
+  if (command.name != 'help') {
+    client.channels.fetch(VOICECHANNEL).then((ch) => {
+      if (!ch.members.has(HOSTID)) {
+        stopAllGames();
+        Promise.delay(joinVoiceChannel, 500)
+      }
+    });
   }
+
+  Promise.delay(() => {
+    try {
+      command.execute(msg, commandName);
+    } catch (error) {
+      console.error(error);
+      msg.channel.send('There was an error trying to execute that command!');
+    }
+  }, 1500)
 })
 
 

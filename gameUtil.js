@@ -6,6 +6,15 @@ const gameNames = [
   'the jackbox party pack 4',
 ];
 
+const stopProcess = (name) => {
+  try {
+    console.log(`Attempting Stop-Process of ${name}`);
+    exec(`Stop-Process -Name '${name}'`, { shell: 'powershell' });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   runGame(game, callback) {
     exec('tasklist', (error, stdout, stderr) => {
@@ -25,15 +34,13 @@ module.exports = {
       }
     });
   },
+  stopAllGames() {
+    gameNames.forEach(stopProcess)
+  },
   stopGamesExcept(game) {
     gameNames.forEach((name) => {
       if (game.name.toLowerCase() == name) return;
-      try {
-        console.log(`Attempting Stop-Process of ${name}`);
-        exec(`Stop-Process -Name '${name}'`, { shell: 'powershell' });
-      } catch (error) {
-        console.error(error);
-      }
+      stopProcess(name);
     })
   }
 }

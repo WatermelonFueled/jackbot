@@ -7,6 +7,7 @@ BOTTOKEN=YourBotTokenFromDiscord
 PREFIX=ThePrefixToTheCommandsYouWishToUse
 VOICECHANNEL=ChannelIdOfTheVoiceChannelThatHostWillBeOn
 TEXTCHANNEL=ChannelIdOfTheTextChannelToListenForCommands
+HOSTID=UserIdOfHost
 ```
 
 ### Currently Supports
