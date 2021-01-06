@@ -12,7 +12,7 @@ const { stopAllGames } = require('./gameUtil');
 console.log('Loading commands')
 client.commands = new Discord.Collection();
 const fs = require('fs');
-const { leaveVoiceChannel } = require('./robotUtil');
+const { joinVoiceChannel, leaveVoiceChannel } = require('./robotUtil');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
