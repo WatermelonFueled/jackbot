@@ -25,8 +25,9 @@ client.on('ready', () => {
   setInterval(() => {
     client.channels.fetch(VOICECHANNEL).then((ch) => {
       if (ch.members.size == 0 || (ch.members.size == 1 && ch.members.has(HOSTID))) {
+        console.log('Nobody home');
         stopAllGames();
-        Promise.delay(leaveVoiceChannel, 500);
+        Promise.delay(leaveVoiceChannel, 800);
       }
     })
   }, 10 * 60 * 1000);
@@ -48,23 +49,25 @@ client.on('message', (msg) => {
 
   if (!command) return;
 
-  if (command.name != 'help') {
+  if (commandName != 'help') {
     client.channels.fetch(VOICECHANNEL).then((ch) => {
       if (!ch.members.has(HOSTID)) {
+        console.log('Joining voice channel')
         stopAllGames();
-        Promise.delay(joinVoiceChannel, 500)
+        Promise.delay(joinVoiceChannel, 800)
       }
     });
   }
 
   Promise.delay(() => {
     try {
+      console.log(`Executing ${commandName}`)
       command.execute(msg, commandName);
     } catch (error) {
       console.error(error);
       msg.channel.send('There was an error trying to execute that command!');
     }
-  }, 1500)
+  }, 2000)
 })
 
 
